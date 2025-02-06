@@ -1,0 +1,132 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+.createProfile {
+    margin: 50px auto;
+    background-color: #001925;
+    border-left: 5px solid #caf438;
+}
+.createProfile h1{
+    color: white;
+}
+
+@media screen and (min-width: 700px) {
+    .createProfile{
+        width: 500px;
+        padding: 25px;
+    }
+}
+@media screen and (max-width: 699px) {
+    .createProfile{
+        width: 80vw;
+        padding: 15px;
+    }
+}
+
+.form {
+    width: 95%;
+    margin: 0px auto;
+}
+
+.form input {
+    height: 30px;
+    width: 90%;
+    padding: 10px 5%;
+    margin: 5px auto;
+    border: none;
+    background-color: #002733;
+    color: #87a4b6;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+.form input:focus{
+    border-left: 5px solid #caf438;
+    color: #ff7a01;
+}
+#create {
+    height: 50px;
+    width: 100%;
+    margin: 20px 0px;
+    padding: 10px;
+    background-color: #caf438;
+    color: #001925;
+    border: none;
+    cursor: pointer;
+}
+#create:hover{
+    background-color: #001925;
+    color: #caf438;
+    border: 1px solid #ff7a01;
+}
+.overlay{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0px;
+    background-color: rgba(139, 139, 139, 0.3);
+    backdrop-filter: blur(1px);
+    display: none;
+}
+.profile {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #caf438;
+    border-radius: 10px;
+    text-align: left;
+}
+@media screen and (min-width: 700px) {
+    .profile{
+        display: flex;
+        justify-content: space-evenly;
+        height: 200px;
+        width: 600px;
+    }
+    .imageAndTitle{
+        height: 100%;
+        width: 200px;
+        border-right: 1px solid #001925;
+    }
+    .description{
+        height: 100%;
+        width: 200px;
+        padding: 0px 30px;
+    }
+    #downloadPdf{
+        height: 30px;
+        width: 100px;
+    }
+}
+@media screen and (max-width: 699px) {
+    .profile{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 500px;
+        width: 300px;
+    }
+    .imageAndTitle{
+        height: 35%;
+        width: 100%;
+        border-bottom: 1px solid #001925;
+    }
+    .description{
+        height: 50%;
+        width: 100%;
+    }
+    #downloadPdf{
+        height: 30px;
+        width: 100%;
+    }
+}
+.profile img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+}
