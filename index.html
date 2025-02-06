@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Stylesheet-->
+    <link rel="stylesheet" href="style.css">
+    <title>Create Profile</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<section class="createProfile">
+    <h1>Create Your Profile</h1>
+    <div class="form">
+        <input type="text" id="name1" placeholder="First Name">
+        <input type="text" id="name2" placeholder="Second Name">
+        <input type="text" id="title" placeholder="Title eg. Data Analyst">
+        <input type="file" id="profilePic">
+        <input type="text" id="description" placeholder="Description">
+        <input type="text" id="extraName" placeholder="City, Country">
+        <input type="tel" id="phone" placeholder="Phone Number">
+        <input type="url" id="link" placeholder="Website or Social Link">
+        <button id="create">Create Profile</button>
+    </div>
+</section>
+
+<section class="overlay" id="profileSection">
+    <section class="profile" >
+        <div class="imageAndTitle">
+            <img id="displayImage" src="" alt="Profile Picture">
+            <h2 id="displayTitle"></h2>
+        </div>
+        <div class="description">
+            <p><span id="displayName"></span></p>
+            <p><span id="displayDescription"></span></p>
+            <p><span id="displayPhone"></span></p>
+            <p><a id="displayLink" href="#" target="_blank"></a></p>
+        </div>
+        <button id="downloadPdf">Download PDF</button>
+    </section>
+</section>
+
+
+<script>
+    document.getElementById('create').addEventListener('click', function() {
+        let name1 = document.getElementById('name1').value;
+        let name2 = document.getElementById('name2').value;
+        let title = document.getElementById('title').value;
+        let description = document.getElementById('description').value;
+        let extraName = document.getElementById('extraName').value;
+        let phone = document.getElementById('phone').value;
+        let link = document.getElementById('link').value;
+        let profilePic = document.getElementById('profilePic').files[0];
+        
+        document.getElementById('displayTitle').textContent = title;
+        document.getElementById('displayName').textContent = `${name1} ${name2} (${extraName})`;
+        document.getElementById('displayDescription').textContent = description;
+        document.getElementById('displayPhone').textContent = phone;
+        document.getElementById('displayLink').textContent = link;
+        document.getElementById('displayLink').href = link;
+        
+        if (profilePic) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('displayImage').src = e.target.result;
+            };
+            reader.readAsDataURL(profilePic);
+        }
+        
+        document.getElementById('profileSection').style.display = 'block';
+    });
+    
+    //generating the pdf
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+        console.log("Download button clicked");
+        const { jsPDF } = window.jspdf;
+        let doc = new jsPDF({
+            unit: "px", // Specify the units in pixels
+            format: [500, 250] // Set the PDF dimensions (width: 450px, height: 250px)
+        });
+
+        // Set the background color of the PDF
+        doc.setFillColor(0, 25, 37); // RGB for #001925
+        doc.rect(0, 0, 450, 250, 'F'); // Fill the whole page
+
+        // Add the profile image to the PDF
+        let imgElement = document.getElementById('displayImage');
+        if (imgElement.src) {
+            doc.addImage(imgElement.src, 'JPEG', 10, 20, 70, 70); // Adjust the size and position of the image
+        }
+
+        // Set the font for the title (name)
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(202, 244, 56); // RGB for #caf438
+        doc.setFontSize(16);
+        doc.text(document.getElementById('displayName').textContent, 70, 35); // Adjust the position of the title
+
+        // Set the font for the other details (description, phone, link)
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(255, 255, 255); // White text color
+        doc.setFontSize(12);
+        doc.text(document.getElementById('displayTitle').textContent, 70, 55); // Adjust the position of the name
+        doc.text(document.getElementById('displayDescription').textContent, 70, 75); // Adjust the position of the description
+        doc.text(document.getElementById('displayPhone').textContent, 70, 95); // Adjust the position of the phone number
+        doc.text(document.getElementById('displayLink').textContent, 70, 115); // Adjust the position of the link
+
+        console.log("Saving PDF now");
+        doc.save("profile.pdf");
+
+        // Reset the form and hide the profile section after download
+        document.querySelectorAll('.form input').forEach(input => input.value = '');
+        document.getElementById('profileSection').style.display = 'none';
+    });
+
+
+</script>
+
+</body>
+</html>
